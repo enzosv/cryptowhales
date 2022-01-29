@@ -14,6 +14,7 @@ A tool to scrape and report the balances of top cryptocurrency wallets
 * Not financial advice
 * Work in progress. Not 100% sure about the way wallets are distinguished
   * Actually not 100% sure about anything at all. Feel free to contribute.
+* Cold vs hot wallet data won't be accurate until enough time has passed
 * Not all wallets and blockchains are captured
 
 ## TODO
