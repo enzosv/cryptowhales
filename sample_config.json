@@ -1,0 +1,13 @@
+{
+    "telegram":{
+        "bot_id":"get from https://t.me/BotFather",
+        "recipient_id":"get from https://t.me/getidsbot"
+    },
+    "pg_url": "",
+    "output": "path to save json summary",
+    "tokens": [
+                {"symbol":"USDT", "address": "0xdac17f958d2ee523a2206206994597c13d831ec7", "blockchain":"ethereum"},
+                {"symbol":"USDC", "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", "blockchain":"ethereum"},
+                {"symbol":"BUSD", "address": "0x4fabb145d64652a948d72533023f6e7a623c7c53", "blockchain":"ethereum"}
+    ]
+}
