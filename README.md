@@ -25,8 +25,8 @@ A tool to scrape and report the balances of top cryptocurrency wallets
 
 # How it is analyzed
 
-**Event** | **Suggests** | **Analysis** 
---- | --- | --- | --- 
+**Event**  | **Suggests** | **Analysis**
+---------- | ------------ | ------------ 
 Crypto into exchange | Selling | `Bearish` 
 Crypto out of exchange | Holding | **Bullish** 
 Stablecoin into exchange | Buying | **Bullish** 
@@ -42,9 +42,9 @@ Crypto out of cold wallet | Selling | `Bearish`
 
 # Building
 ## Requirements
-go
-config.json. See [sample_config.json](https://github.com/enzosv/cryptowhales/blob/master/sample_config.json). 
-database. See latest dump in releases.
+1. go
+2. config.json. See [sample_config.json](https://github.com/enzosv/cryptowhales/blob/master/sample_config.json). 
+3. database. See latest dump in releases.
 ## Steps
 ```
 go get -d
