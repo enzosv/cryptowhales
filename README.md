@@ -9,6 +9,7 @@ A tool to scrape and report the balances of top cryptocurrency wallets
 * Reports balance summaries via [telegram channel](https://t.me/whalesummary/)
 * Stores historical data for other analysis
 * Distinguishes wallets based on analysis
+* Summarizes data in USD
 
 ## Disclaimers
 * Not financial advice
@@ -16,6 +17,7 @@ A tool to scrape and report the balances of top cryptocurrency wallets
   * Actually not 100% sure about anything at all. Feel free to contribute.
 * Cold vs hot wallet data won't be accurate until enough time has passed
 * Not all wallets and blockchains are captured
+* This uses html scraping to collect data. It can fail if the websites change.
 
 ## TODO
 * Better website
@@ -52,5 +54,11 @@ go get -d
 go build
 ./cryptowhales
 ```
+# Credits
+* Inspired by [WhaleStats](https://www.whalestats.com/) and [WhaleAlert](https://whale-alert.io/)
+* Data sourced from [etherscan](https://etherscan.io/accounts), [bitinfocharts](https://bitinfocharts.com/top-100-richest-bitcoin-addresses.html) and [coingecko](https://www.coingecko.com/)
+* [pgx](https://github.com/jackc/pgx) used as the database driver
+* [goquery](https://github.com/PuerkitoBio/goquery) used for scraping
+* [golang-migrate](https://github.com/golang-migrate/migrate) used to generate migration files
 
 Tips are appreciated. 0xBa2306a4e2AadF2C3A6084f88045EBed0E842bF9
