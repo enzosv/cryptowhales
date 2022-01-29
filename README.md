@@ -25,6 +25,7 @@ A tool to scrape and report the balances of top cryptocurrency wallets
 * Consider timescale db for smaller footprint
 * Rename cold wallets to accumulators and hot wallets to sellers
 * Merge with [Whale Summary](https://github.com/enzosv/whalesummary)
+* Setup own nodes and query direct from blockchain
 
 # How it is analyzed
 
@@ -55,8 +56,8 @@ go build
 ./cryptowhales
 ```
 # Credits
+* Data sourced from [etherscan](https://etherscan.io/accounts), [bitinfocharts](https://bitinfocharts.com/top-100-richest-bitcoin-addresses.html), and [coingecko](https://www.coingecko.com/)
 * Inspired by [WhaleStats](https://www.whalestats.com/) and [WhaleAlert](https://whale-alert.io/)
-* Data sourced from [etherscan](https://etherscan.io/accounts), [bitinfocharts](https://bitinfocharts.com/top-100-richest-bitcoin-addresses.html) and [coingecko](https://www.coingecko.com/)
 * [pgx](https://github.com/jackc/pgx) used as the database driver
 * [goquery](https://github.com/PuerkitoBio/goquery) used for scraping
 * [golang-migrate](https://github.com/golang-migrate/migrate) used to generate migration files
