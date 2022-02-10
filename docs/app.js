@@ -177,7 +177,7 @@ function generateSeries(whale, coingecko) {
 }
 async function main() {
     const [whaleResponse, coingeckoResponse] = await Promise.all([
-        fetch('https://161.117.231.95/static/ethwhales.json'),
+        fetch('https://enzosv.xyz/static/ethwhales.json'),
         fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cethereum&vs_currencies=usd&include_market_cap=true&include_24hr_change=true')
     ]);
     const whale = await whaleResponse.json();
