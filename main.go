@@ -859,7 +859,7 @@ func analyze(now, old Series, symbol string, is_stablecoin bool) ([]string, floa
 	}
 
 	var msg []string
-	if math.Abs(diamond) >= 0.1 {
+	if math.Abs(diamond) >= 0.03 {
 		value := fmt.Sprintf("`%.2f%%`", diamond)
 		if diamond > 0 {
 			// whales stacking crypto is a positive
@@ -867,7 +867,7 @@ func analyze(now, old Series, symbol string, is_stablecoin bool) ([]string, floa
 		}
 		msg = append(msg, fmt.Sprintf("\t`[%s]` `%-12s`: %s", symbol, "Cold Wallets", value))
 	}
-	if math.Abs(stake) >= 0.1 {
+	if math.Abs(stake) >= 0.03 {
 		value := fmt.Sprintf("`%.2f%%`", stake)
 		if stake > 0 {
 			// whales locking crypto is a positive
@@ -875,7 +875,7 @@ func analyze(now, old Series, symbol string, is_stablecoin bool) ([]string, floa
 		}
 		msg = append(msg, fmt.Sprintf("\t`[%s]` `%-12s`: %s", symbol, "Staked", value))
 	}
-	if math.Abs(exchange) >= 0.1 {
+	if math.Abs(exchange) >= 0.03 {
 		var value string
 		if is_stablecoin {
 			if exchange > 0 {
