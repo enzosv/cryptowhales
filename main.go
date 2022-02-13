@@ -847,9 +847,9 @@ func analyze(now, old Series, symbol string, is_stablecoin bool) ([]string, floa
 		// assume empty if exchange is empty
 		return nil, 0
 	}
-	diamond := (now.DiamondHands - old.DiamondHands) * 100 / now.DiamondHands
-	exchange := (now.Exchange - old.Exchange) * 100 / now.Exchange
-	stake := (now.Stake - old.Stake) * 100 / now.Stake
+	diamond := (now.DiamondHands - old.DiamondHands) * 100 / ((now.DiamondHands + old.DiamondHands) / 2)
+	exchange := (now.Exchange - old.Exchange) * 100 / ((now.Exchange + old.Exchange) / 2)
+	stake := (now.Stake - old.Stake) * 100 / ((now.Stake + old.Stake) / 2)
 
 	overall := (now.DiamondHands - old.DiamondHands) + (now.Stake - old.Stake)
 	if is_stablecoin {
