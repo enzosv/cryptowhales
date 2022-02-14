@@ -110,6 +110,8 @@ func main() {
 		return
 	}
 
+	defer fmt.Printf("execution took %d seconds\n", time.Now().Unix()-start)
+
 	ctx := context.Background()
 	blockchains := []Blockchain{{Bitcoin, 0}, {Ethereum, 0}}
 	if *shouldUpdate {
@@ -140,7 +142,7 @@ func main() {
 		}
 	}
 
-	if config.Output == "" {
+	if config.Output == "" || !*shouldUpdate {
 		return
 	}
 	latest, err := json.Marshal(points)
@@ -153,8 +155,6 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-
-	fmt.Printf("execution took %d seconds\n", time.Now().Unix()-start)
 }
 
 func generatePoints(ctx context.Context, pg_url string) ([]Point, error) {
