@@ -10,7 +10,9 @@ function populateTable(series) {
                 if (isNaN(old)) {
                     value = ""
                 } else {
-                    value = ((snow - old) * 100 / (snow+old)/2).toFixed(2) + '%'            
+                    
+                    value = ((snow - old) * 100 / ((snow+old)/2)).toFixed(2) + '%'       
+                    console.log(id, snow, old, (snow - old) * 100, (snow+old)/2, value)     
                 }
                 
             }
