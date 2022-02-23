@@ -904,13 +904,16 @@ func analyze(now, old Series, symbol string, is_stablecoin bool) ([]string, floa
 	// 	}
 	// 	msg = append(msg, fmt.Sprintf("\t`[%s]` `%-12s`: %s", symbol, "Exchanges", value))
 	// }
-	var overallValue string
-	if odif > 0 {
-		overallValue = fmt.Sprintf("*+%.2f%%*", odif)
-	} else if odif < 0 {
-		overallValue = fmt.Sprintf("`%.2f%%`", odif)
+	if math.Abs(odif) >= 0.1 {
+		var overallValue string
+		if odif > 0 {
+			overallValue = fmt.Sprintf("*+%.2f%%*", odif)
+		} else if odif < 0 {
+			overallValue = fmt.Sprintf("`%.2f%%`", odif)
+		}
+		msg = append(msg, fmt.Sprintf("\t`%s`: %s", symbol, overallValue))
 	}
-	msg = []string{fmt.Sprintf("\t`[%s]`: %s", symbol, overallValue)}
+
 	return msg, overall
 }
 
