@@ -847,55 +847,70 @@ func analyze(now, old Series, symbol string, is_stablecoin bool) ([]string, floa
 		// assume empty if exchange is empty
 		return nil, 0
 	}
-	diamond := (now.DiamondHands - old.DiamondHands) * 100 / ((now.DiamondHands + old.DiamondHands) / 2)
-	exchange := (now.Exchange - old.Exchange) * 100 / ((now.Exchange + old.Exchange) / 2)
-	stake := (now.Stake - old.Stake) * 100 / ((now.Stake + old.Stake) / 2)
+	// diamond := (now.DiamondHands - old.DiamondHands) * 100 / ((now.DiamondHands + old.DiamondHands) / 2)
+	// exchange := (now.Exchange - old.Exchange) * 100 / ((now.Exchange + old.Exchange) / 2)
+	// stake := (now.Stake - old.Stake) * 100 / ((now.Stake + old.Stake) / 2)
+
+	var odividend float64
+	var odivisor float64
 
 	overall := (now.DiamondHands - old.DiamondHands) + (now.Stake - old.Stake)
 	if is_stablecoin {
+		odividend = 100 * ((now.DiamondHands + now.Stake - now.Exchange) - (old.DiamondHands + old.Stake - old.Exchange))
+		odivisor = ((now.DiamondHands + now.Stake - now.Exchange) + (old.DiamondHands + old.Stake - old.Exchange)) / 2
 		overall += (now.Exchange - old.Exchange)
 	} else {
+		odividend = 100 * ((now.DiamondHands + now.Stake + now.Exchange) - (old.DiamondHands + old.Stake + old.Exchange))
+		odivisor = ((now.DiamondHands + now.Stake + now.Exchange) + (old.DiamondHands + old.Stake + old.Exchange)) / 2
 		overall -= (now.Exchange - old.Exchange)
 	}
+	odif := odividend / odivisor
 
 	var msg []string
-	if math.Abs(diamond) >= 0.1 {
-		value := fmt.Sprintf("`%.2f%%`", diamond)
-		if diamond > 0 {
-			// whales stacking crypto is a positive
-			value = fmt.Sprintf("*+%.2f%%*", diamond)
-		}
-		msg = append(msg, fmt.Sprintf("\t`[%s]` `%-12s`: %s", symbol, "Cold Wallets", value))
+	// if math.Abs(diamond) >= 0.1 {
+	// 	value := fmt.Sprintf("`%.2f%%`", diamond)
+	// 	if diamond > 0 {
+	// 		// whales stacking crypto is a positive
+	// 		value = fmt.Sprintf("*+%.2f%%*", diamond)
+	// 	}
+	// 	msg = append(msg, fmt.Sprintf("\t`[%s]` `%-12s`: %s", symbol, "Cold Wallets", value))
+	// }
+	// if math.Abs(stake) >= 0.1 {
+	// 	value := fmt.Sprintf("`%.2f%%`", stake)
+	// 	if stake > 0 {
+	// 		// whales locking crypto is a positive
+	// 		value = fmt.Sprintf("*+%.2f%%*", stake)
+	// 	}
+	// 	msg = append(msg, fmt.Sprintf("\t`[%s]` `%-12s`: %s", symbol, "Staked", value))
+	// }
+	// if math.Abs(exchange) >= 0.1 {
+	// 	var value string
+	// 	if is_stablecoin {
+	// 		if exchange > 0 {
+	// 			// stablecoin entering exchanges is a positive
+	// 			value = fmt.Sprintf("*+%.2f%%*", exchange)
+	// 		} else if exchange < 0 {
+	// 			// stablecoin leaving exchanges is a negative
+	// 			value = fmt.Sprintf("`%.2f%%`", exchange)
+	// 		}
+	// 	} else {
+	// 		if exchange > 0 {
+	// 			// crypto entering exchanges is a negative
+	// 			value = fmt.Sprintf("`+%.2f%%`", exchange)
+	// 		} else if exchange < 0 {
+	// 			// crypto leaving exchanges is a positive
+	// 			value = fmt.Sprintf("*%.2f%%*", exchange)
+	// 		}
+	// 	}
+	// 	msg = append(msg, fmt.Sprintf("\t`[%s]` `%-12s`: %s", symbol, "Exchanges", value))
+	// }
+	var overallValue string
+	if odif > 0 {
+		overallValue = fmt.Sprintf("*+%.2f%%*", odif)
+	} else if odif < 0 {
+		overallValue = fmt.Sprintf("`%.2f%%`", odif)
 	}
-	if math.Abs(stake) >= 0.1 {
-		value := fmt.Sprintf("`%.2f%%`", stake)
-		if stake > 0 {
-			// whales locking crypto is a positive
-			value = fmt.Sprintf("*+%.2f%%*", stake)
-		}
-		msg = append(msg, fmt.Sprintf("\t`[%s]` `%-12s`: %s", symbol, "Staked", value))
-	}
-	if math.Abs(exchange) >= 0.1 {
-		var value string
-		if is_stablecoin {
-			if exchange > 0 {
-				// stablecoin entering exchanges is a positive
-				value = fmt.Sprintf("*+%.2f%%*", exchange)
-			} else if exchange < 0 {
-				// stablecoin leaving exchanges is a negative
-				value = fmt.Sprintf("`%.2f%%`", exchange)
-			}
-		} else {
-			if exchange > 0 {
-				// crypto entering exchanges is a negative
-				value = fmt.Sprintf("`+%.2f%%`", exchange)
-			} else if exchange < 0 {
-				// crypto leaving exchanges is a positive
-				value = fmt.Sprintf("*%.2f%%*", exchange)
-			}
-		}
-		msg = append(msg, fmt.Sprintf("\t`[%s]` `%-12s`: %s", symbol, "Exchanges", value))
-	}
+	msg = []string{fmt.Sprintf("\t`[%s]`: %s", symbol, overallValue)}
 	return msg, overall
 }
 
