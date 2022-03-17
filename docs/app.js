@@ -5,18 +5,33 @@ function populateTable(series) {
         milestones.forEach(milestone => {
             
             var value = ""
-            if (data.length >= 1 + milestone) {
-                var old = data[data.length - (1 + milestone)][1]
-                if (isNaN(old)) {
-                    value = ""
-                } else {
-                    
-                    value = ((snow - old) * 100 / ((snow+old)/2)).toFixed(2) + '%'       
-                    console.log(id, snow, old, (snow - old) * 100, (snow+old)/2, value)     
-                }
-                
+            var val
+            if (data.length < 1 + milestone) {
+                return
             }
-            html += '<td class="border px-8">' + value + '</td>'
+            var old = data[data.length - (1 + milestone)][1]
+            if (isNaN(old)) {
+                html += '<td class="border px-8"> </td>'
+                return
+            }
+            val = ((snow - old) * 100 / ((snow+old)/2))
+            value = val.toFixed(2) + '%' 
+            var textColor = "white"
+            if(id.includes("USD") || id.includes("Cold Wallets") || id.includes("Staked")){
+                if(val > 0) {
+                    textColor = "green-600"
+                } else if (val < 0){
+                    textColor = "red-600"
+                }
+            } else if (id.includes("Exchanges")){
+                if(val > 0) {
+                    textColor = "red-600"
+                } else if (val < 0){
+                    textColor = "green-600"
+                }
+            }
+            html += `<td class="border px-8 text-${textColor}"> ${value} </td>`
+        
         })
         document.getElementById(id).innerHTML = html
     }
