@@ -132,13 +132,13 @@ function generateSeries(whale, coingecko) {
             type: 'line',
             name: '[ETH] Cold Wallets',
             data: [],
-            visible: true
+            visible: false
         },
         {
             type: 'line',
             name: '[ETH] Hot Wallets',
             data: [],
-            visible: true
+            visible: false
         },
         {
             type: 'line',
@@ -150,13 +150,13 @@ function generateSeries(whale, coingecko) {
             type: 'line',
             name: '[ETH] Staked',
             data: [],
-            visible: true
+            visible: false
         },
         {
             type: 'line',
             name: '[USD*] Exchanges',
             data: [],
-            visible: false
+            visible: true
         },
         {
             type: 'line',
@@ -174,7 +174,7 @@ function generateSeries(whale, coingecko) {
             type: 'line',
             name: '[BTC] Exchanges',
             data: [],
-            visible: false
+            visible: true
         },
     ]
     var btcprice = coingecko.bitcoin.usd
