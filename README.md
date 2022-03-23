@@ -1,11 +1,11 @@
 # What this is
-A tool to scrape and report the balances of top cryptocurrency wallets
+A tool to scrape and report the total balances of top cryptocurrency wallets
 
 ## Telegram Preview
 ![preview](https://github.com/enzosv/cryptowhales/blob/main/telegram.png)
 
 ## Features
-* Displays historical balances for whales via [website](https://enzosv.github.io/cryptowhales)
+* Displays historical total balances for whales via [website](https://enzosv.github.io/cryptowhales)
 * Reports balance summaries via [telegram channel](https://t.me/whalesummary/)
 * Stores historical data for other analysis
 * Distinguishes wallets based on analysis
@@ -15,8 +15,7 @@ A tool to scrape and report the balances of top cryptocurrency wallets
 * Not financial advice
 * Work in progress. Not 100% sure about the way wallets are distinguished
   * Actually not 100% sure about anything at all. Feel free to contribute.
-* Cold vs hot wallet data won't be accurate until enough time has passed
-* Not all wallets and blockchains are captured
+* Only captures data from top BTC and ETH wallets.
 * This uses html scraping to collect data. It can fail if the websites change.
 
 ## TODO
@@ -48,7 +47,7 @@ Crypto out of cold wallet | Selling | `Bearish`
 ## Requirements
 1. go
 2. config.json. See [sample_config.json](https://github.com/enzosv/cryptowhales/blob/master/sample_config.json). 
-3. database. See latest dump in releases.
+3. database. See [migrations](https://github.com/enzosv/cryptowhales/blob/main/db/migrations/20220118193021_initialize_schema.up.sql)
 ## Steps
 ```
 go get -d
