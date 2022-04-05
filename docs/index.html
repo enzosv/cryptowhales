@@ -1,93 +1,97 @@
 <html>
-    <head>
-        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="main.css">
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script src="https://code.highcharts.com/js/themes/dark-unica.js"></script>
-        <script src="app.js"></script>
-        
-    </head>
-    <body class="text-white" style="background: rgb(34, 37, 49);">
-        <div id="container" class="h-2/3 w-full" style="background: rgb(36, 52, 71);">
-        </div>
-        <div class="container p-8">
-            <div class="grid 2xl:grid-cols-6 grid-rows-2" >
-                <div class="2xl:col-span-4">
-                    <span id="last_updated"></span>
-                    <table class="table-auto border-collapse border">
-                        <thead>
-                            <tr>
-                                <td class="border px-8"></td>
-                                <td class="border px-8" >1h <small id="1h"></small></td>
-                                <td class="border px-8" >4h <small id="4h"></small></td>
-                                <td class="border px-8" >24h <small id="24h"></small></td>
-                                <td class="border px-8" >7d <small id="168h"></small></td>
-                                <td class="border px-8" >30d <small id="720h"></small></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr id="[BTC] Cold Wallets">
-                            </tr>
-                            <!-- <tr id="[BTC] Hot Wallets">
+
+<head>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/js/themes/dark-unica.js"></script>
+    <script src="app.js"></script>
+
+</head>
+
+<body class="text-white" style="background: rgb(34, 37, 49);">
+    <div id="container" class="h-2/3 w-full" style="background: rgb(36, 52, 71);">
+    </div>
+    <div class="container p-8">
+        <div class="grid 2xl:grid-cols-6 grid-rows-2">
+            <div class="2xl:col-span-4">
+                <span id="last_updated"></span>
+                <table class="table-auto border-collapse border">
+                    <thead>
+                        <tr>
+                            <td class="border px-8"></td>
+                            <td class="border px-8">1h <small id="1h"></small></td>
+                            <td class="border px-8">4h <small id="4h"></small></td>
+                            <td class="border px-8">24h <small id="24h"></small></td>
+                            <td class="border px-8">7d <small id="168h"></small></td>
+                            <td class="border px-8">30d <small id="720h"></small></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="[BTC] Cold Wallets">
+                        </tr>
+                        <!-- <tr id="[BTC] Hot Wallets">
                             </tr> -->
-                            <tr id="[BTC] Exchanges">
-                            </tr>
-                            <tr id="[ETH] Cold Wallets">
-                            </tr>
-                            <!-- <tr id="[ETH] Hot Wallets">
+                        <tr id="[BTC] Exchanges">
+                        </tr>
+                        <tr id="[ETH] Cold Wallets">
+                        </tr>
+                        <!-- <tr id="[ETH] Hot Wallets">
                             </tr> -->
-                            <tr id="[ETH] Staked">
-                            </tr>
-                            <tr id="[ETH] Exchanges">
-                            </tr>
-                            <tr id="[USD*] Exchanges">
-                            </tr>
-                        </tbody>
-                    </table>
-                    <small>* Only top
-                        <a href="https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7#balances">USDT</a>, 
-                        <a href="https://etherscan.io/token/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48#balances">USDC</a>, and
-                        <a href="https://etherscan.io/token/0x4fabb145d64652a948d72533023f6e7a623c7c53#balances">BUSD</a> 
-                        wallets on ethereum blockchain are counted
-                    </small>
+                        <tr id="[ETH] Staked">
+                        </tr>
+                        <tr id="[ETH] Exchanges">
+                        </tr>
+                        <tr id="[USD*] Exchanges">
+                        </tr>
+                    </tbody>
+                </table>
+                <small>* Only top
+                    <a href="https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7#balances">USDT</a>,
+                    <a href="https://etherscan.io/token/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48#balances">USDC</a>,
+                    and
+                    <a href="https://etherscan.io/token/0x4fabb145d64652a948d72533023f6e7a623c7c53#balances">BUSD</a>
+                    wallets on ethereum blockchain are counted
+                </small>
+            </div>
+            <div class="grid grid-cols-2 grid-flow-row grid-rows-2 col-span-2 my-2 2xl:my-0">
+                <div>
+                    <p id="btc_stats"></p>
                 </div>
-                <div class="grid grid-cols-2 grid-flow-row grid-rows-2 col-span-2 my-2 2xl:my-0">
+                <div>
+                    <p id="eth_stats"></p>
+                </div>
+                <div class="grid grid-cols-4 col-span-2 my-2">
                     <div>
-                        <p id="btc_stats"></p>
+                        <p>Powered by</p>
+                        <p><a href="https://etherscan.io/accounts">Etherscan</a></p>
+                        <p><a href="https://bitinfocharts.com/top-100-richest-bitcoin-addresses.html">BitInfoCharts</a>
+                        </p>
+                        <p><a href="https://www.coingecko.com/">CoinGecko</a></p>
                     </div>
                     <div>
-                        <p id="eth_stats"></p>
+                        <p>Inspired by</p>
+                        <p><a href="https://www.whalestats.com/">WhaleStats</a></p>
+                        <p><a href="https://whale-alert.io/">Whale Alert</a></p>
                     </div>
-                    <div class="grid grid-cols-4 col-span-2 my-2">
-                        <div>
-                            <p>Powered by</p>
-                            <p><a href="https://etherscan.io/accounts">Etherscan</a></p>
-                            <p><a href="https://bitinfocharts.com/top-100-richest-bitcoin-addresses.html">BitInfoCharts</a></p>
-                            <p><a href="https://www.coingecko.com/">CoinGecko</a></p>
-                        </div>
-                        <div>
-                            <p>Inspired by</p>
-                            <p><a href="https://www.whalestats.com/">WhaleStats</a></p>
-                            <p><a href="https://whale-alert.io/">Whale Alert</a></p>
-                        </div>
-                        <div>
-                            <p>More</p>
-                            <p><a href="https://t.me/whalesummary/">Telegram</a></p>
-                            <p><a href="https://github.com/enzosv/cryptowhales">Github</a></p>
-                        </div>
-                        <div>
-                            <p>Useful</p>
-                            <p><a id="fng" href="https://alternative.me/crypto/fear-and-greed-index/">Fear & Greed</a></p>
-                            <p><a href="https://www.coinoptionstrack.com/options/BTC/open-interest">Max Pain</a></p>
-                            <p><a href="https://www.blockchaincenter.net/bitcoin-rainbow-chart/">Rainbow Chart</a></p>
-                            <p><a href="https://planbtc.com/#planB">Stock to flow</a></p>
-                        </div>
+                    <div>
+                        <p>More</p>
+                        <p><a href="https://t.me/whalesummary/">Telegram</a></p>
+                        <p><a href="https://github.com/enzosv/cryptowhales">Github</a></p>
+                        <p><a href="https://binalysis.enzosv.xyz">Binalysis</a></p>
+                    </div>
+                    <div>
+                        <p>Useful</p>
+                        <p><a id="fng" href="https://alternative.me/crypto/fear-and-greed-index/">Fear & Greed</a></p>
+                        <p><a href="https://www.coinoptionstrack.com/options/BTC/open-interest">Max Pain</a></p>
+                        <p><a href="https://www.blockchaincenter.net/bitcoin-rainbow-chart/">Rainbow Chart</a></p>
+                        <p><a href="https://www.lookintobitcoin.com/charts/">Look Into Bitcoin</a></p>
+                        <p><a href="https://planbtc.com/#planB">Stock to flow</a></p>
                     </div>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>
-
-
-
