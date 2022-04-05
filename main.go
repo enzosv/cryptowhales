@@ -135,7 +135,12 @@ func main() {
 		return
 	}
 	message := summarize(points, pricedChains)
-	fmt.Println(message)
+	var priceMessage []string
+	for _, c := range pricedChains {
+		// TODO: add price change
+		priceMessage = append(priceMessage, fmt.Sprintf("%s: %.1f", c.symbol(), c.Price/1000))
+	}
+	message = fmt.Sprintf("[%s](https://enzosv.github.io/cryptowhales)\n%s", strings.Join(priceMessage, ", "), message)
 	if config.Telegram.BotID != "" && config.Telegram.RecipientID != "" {
 		if message != "" {
 			sendMessage(config.Telegram.BotID, config.Telegram.RecipientID, message)
