@@ -135,14 +135,16 @@ func main() {
 		return
 	}
 
+	logPrice(pricedChains, "price.json")
+
 	if config.Telegram.BotID != "" && config.Telegram.RecipientID != "" {
 		message := summarize(points, pricedChains)
 		var priceMessage []string
 		for _, c := range pricedChains {
 			// TODO: add price change
-			priceMessage = append(priceMessage, fmt.Sprintf("%s: %.1f", c.symbol(), c.Price/1000))
+			priceMessage = append(priceMessage, fmt.Sprintf("%s: %.1fK", c.symbol(), c.Price/1000))
 		}
-		message = fmt.Sprintf("[%s](https://enzosv.github.io/cryptowhales)\n%s", strings.Join(priceMessage, ", "), message)
+		message = fmt.Sprintf("[%s](https://enzosv.github.io/cryptowhales)\n\n%s", strings.Join(priceMessage, ", "), message)
 		if message != "" {
 			sendMessage(config.Telegram.BotID, config.Telegram.RecipientID, message)
 		}
@@ -161,6 +163,15 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+}
+
+func logPrice(pricedChains []Blockchain, path string) error {
+	// only concerned with latest price
+	file, err := json.Marshal(pricedChains)
+	if err != nil {
+		return err
+	}
+	return ioutil.WriteFile(path, file, 0644)
 }
 
 func generatePoints(ctx context.Context, pg_url string) ([]Point, error) {
