@@ -135,20 +135,16 @@ func main() {
 		return
 	}
 
-	logPrice(pricedChains, "price.json")
-
 	if config.Telegram.BotID != "" && config.Telegram.RecipientID != "" {
 		message := summarize(points, pricedChains)
-		var priceMessage []string
-		for _, c := range pricedChains {
-			// TODO: add price change
-			priceMessage = append(priceMessage, fmt.Sprintf("%s: %.1fK", c.symbol(), c.Price/1000))
-		}
+		oldPrices := loadPrice("price.json")
+		priceMessage := composePriceMessage(pricedChains, oldPrices)
 		message = fmt.Sprintf("[%s](https://enzosv.github.io/cryptowhales)\n\n%s", strings.Join(priceMessage, ", "), message)
 		if message != "" {
 			sendMessage(config.Telegram.BotID, config.Telegram.RecipientID, message)
 		}
 	}
+	logPrice(pricedChains, "price.json")
 
 	if config.Output == "" || !*shouldUpdate {
 		return
@@ -163,6 +159,37 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+}
+
+func composePriceMessage(pricedChains, oldPrices []Blockchain) []string {
+	var priceMessage []string
+	for _, c := range pricedChains {
+		var dif float64
+		for _, o := range oldPrices {
+			if o.ID == c.ID {
+				dif = (c.Price - o.Price) * 100 / ((c.Price + o.Price) / 2)
+				break
+			}
+		}
+		difMessage := ""
+		if dif > 5 {
+			difMessage = fmt.Sprintf(" *(+%.2f)*", dif)
+		} else if dif < -5 {
+			difMessage = fmt.Sprintf(" `(%.2f)`", dif)
+		}
+		priceMessage = append(priceMessage, fmt.Sprintf("%s: %.1fK%s", c.symbol(), c.Price/1000, difMessage))
+	}
+	return priceMessage
+}
+
+func loadPrice(path string) []Blockchain {
+	content, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil
+	}
+	var pricedChains []Blockchain
+	json.Unmarshal(content, &pricedChains)
+	return pricedChains
 }
 
 func logPrice(pricedChains []Blockchain, path string) error {
