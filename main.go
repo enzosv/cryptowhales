@@ -101,6 +101,7 @@ const TGURL = "https://api.telegram.org"
 func main() {
 	start := time.Now().Unix()
 	configPath := flag.String("c", "config.json", "config file")
+	pricePath := flag.String("p", "price.json", "price file")
 	shouldUpdate := flag.Bool("update", false, "flag to trigger batch update")
 	flag.Parse()
 	config := parseConfig(*configPath)
@@ -137,14 +138,14 @@ func main() {
 
 	if config.Telegram.BotID != "" && config.Telegram.RecipientID != "" {
 		message := summarize(points, pricedChains)
-		oldPrices := loadPrice("price.json")
+		oldPrices := loadPrice(*pricePath)
 		priceMessage := composePriceMessage(pricedChains, oldPrices)
 		message = fmt.Sprintf("[%s](https://enzosv.github.io/cryptowhales)\n\n%s", strings.Join(priceMessage, ", "), message)
 		if message != "" {
 			sendMessage(config.Telegram.BotID, config.Telegram.RecipientID, message)
 		}
 	}
-	logPrice(pricedChains, "price.json")
+	logPrice(pricedChains, *pricePath)
 
 	if config.Output == "" || !*shouldUpdate {
 		return
