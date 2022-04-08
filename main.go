@@ -828,6 +828,9 @@ func generate_eth_series(ctx context.Context, conn *pgx.Conn) ([]Series, error) 
 }
 
 func summarize(points []Point, blockchains []Blockchain) string {
+	if len(points) < 1 || len(blockchains) < 1 {
+		return ""
+	}
 	var differences []string
 	milestones := map[string]int{
 		"1h":  1,
