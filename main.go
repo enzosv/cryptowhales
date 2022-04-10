@@ -139,10 +139,10 @@ func main() {
 	if config.Telegram.BotID != "" && config.Telegram.RecipientID != "" {
 		message := summarize(points, pricedChains)
 		oldPrices := loadPrice(*pricePath)
-		priceMessage := composePriceMessage(pricedChains, oldPrices)
+		priceMessage, silent := composePriceMessage(pricedChains, oldPrices)
 		message = fmt.Sprintf("[%s](https://enzosv.github.io/cryptowhales)\n\n%s", strings.Join(priceMessage, ", "), message)
 		if message != "" {
-			sendMessage(config.Telegram.BotID, config.Telegram.RecipientID, message)
+			sendMessage(config.Telegram.BotID, config.Telegram.RecipientID, message, silent)
 		}
 	}
 	logPrice(pricedChains, *pricePath)
@@ -162,8 +162,9 @@ func main() {
 	}
 }
 
-func composePriceMessage(pricedChains, oldPrices []Blockchain) []string {
+func composePriceMessage(pricedChains, oldPrices []Blockchain) ([]string, bool) {
 	var priceMessage []string
+	var silent = true
 	for _, c := range pricedChains {
 		var dif float64
 		for _, o := range oldPrices {
@@ -173,14 +174,16 @@ func composePriceMessage(pricedChains, oldPrices []Blockchain) []string {
 			}
 		}
 		difMessage := ""
-		if dif > 5 {
+		if dif >= 3 {
 			difMessage = fmt.Sprintf(" *(+%.2f)*", dif)
-		} else if dif < -5 {
+			silent = false
+		} else if dif <= -3 {
 			difMessage = fmt.Sprintf(" `(%.2f)`", dif)
+			silent = false
 		}
 		priceMessage = append(priceMessage, fmt.Sprintf("%s: %.1fK%s", c.symbol(), c.Price/1000, difMessage))
 	}
-	return priceMessage
+	return priceMessage, silent
 }
 
 func loadPrice(path string) []Blockchain {
@@ -965,18 +968,19 @@ func analyze(now, old Series, symbol string, is_stablecoin bool) ([]string, floa
 	return msg, overall
 }
 
-func constructPayload(chatID, message string) (*bytes.Reader, error) {
+func constructPayload(chatID, message string, silent bool) (*bytes.Reader, error) {
 	payload := map[string]interface{}{}
 	payload["chat_id"] = chatID
 	payload["text"] = message
 	payload["parse_mode"] = "markdown"
+	payload["disable_notification"] = silent
 
 	jsonValue, err := json.Marshal(payload)
 	return bytes.NewReader(jsonValue), err
 }
 
-func sendMessage(bot, chatID, message string) error {
-	payload, err := constructPayload(chatID, message)
+func sendMessage(bot, chatID, message string, silent bool) error {
+	payload, err := constructPayload(chatID, message, silent)
 	if err != nil {
 		fmt.Println(err)
 		return err
