@@ -175,10 +175,10 @@ func composePriceMessage(pricedChains, oldPrices []Blockchain) ([]string, bool) 
 		}
 		difMessage := ""
 		if dif >= 3 {
-			difMessage = fmt.Sprintf(" *(+%.2f)*", dif)
+			difMessage = fmt.Sprintf(" (+%.2f)", dif)
 			silent = false
 		} else if dif <= -3 {
-			difMessage = fmt.Sprintf(" `(%.2f)`", dif)
+			difMessage = fmt.Sprintf(" (%.2f)", dif)
 			silent = false
 		}
 		priceMessage = append(priceMessage, fmt.Sprintf("%s: %.1fK%s", c.symbol(), c.Price/1000, difMessage))
